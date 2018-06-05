@@ -1,22 +1,25 @@
 import * as React from 'react'
 import './Hello.css'
+import * as actions from '../actions';
+import { connect, Dispatch } from 'react-redux';
+import { StoreState } from '../types/index';
 
-// export interface IHelloProps { compiler: string; framework: string; }
-// export const Hello = ( props: IHelloProps ) => <h1>Hello from {props.compiler} and {props.framework}!</h1>
 
-
-export interface IProps {
+interface Props {
   name: string;
   enthusiasmLevel?: number;
-  increment: () => void
+  onIncrement?: () => void;
+  onDecrement?: () => void;
 }
-export class Hello extends React.Component<IProps, object> {
 
-    public getExclamationMarks = (numChars: number) => {
+
+class Hello extends React.Component<Props, object> {
+
+    getExclamationMarks = (numChars: number) => {
         return Array(numChars + 1).join('!');
       }
-    public render() {
-      const { name, enthusiasmLevel = 1 } = this.props;
+    render() {
+      const { name, enthusiasmLevel = 1, onDecrement, onIncrement } = this.props;
   
       if (enthusiasmLevel <= 0) {
         throw new Error('You could be a little more enthusiastic. :D');
@@ -27,9 +30,29 @@ export class Hello extends React.Component<IProps, object> {
           <div className="greeting">
             Hello {name + this.getExclamationMarks(enthusiasmLevel)}
           </div>
-          <button onClick={this.props.increment}>powerlevel1000</button>
+          <div>
+            <button onClick={onDecrement}>-</button>
+            <button onClick={onIncrement}>+</button>
+          </div>
         </div>
       );
     }
   }
+
+    function mapStateToProps({ enthusiasmLevel, languageName }: StoreState) {
+    return {
+      enthusiasmLevel,
+      name: languageName,
+    } 
+  }
+  
+    function mapDispatchToProps(dispatch: Dispatch<actions.EnthusiasmAction>) {
+    return {
+      onIncrement: () => dispatch(actions.incrementEnthusiasm()),
+      onDecrement: () => dispatch(actions.decrementEnthusiasm()),
+    }
+  }
+
+
+  export default connect<Props>(mapStateToProps, mapDispatchToProps)(Hello);
 

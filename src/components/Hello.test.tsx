@@ -3,19 +3,13 @@
 import * as enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
-import {Hello} from './Hello';
+import Hello from './Hello';
 
 enzyme.configure({ adapter: new Adapter() });
 
-const increment = () => {
-    state.level = state.level + 1
-  }
 
-const state = {
-    level: 1
-}
 it('renders the correct words', () => {
-  const hello = enzyme.shallow(<Hello name='Daniel' increment={increment} enthusiasmLevel={state.level}/>);
+  const hello = enzyme.shallow(<Hello />);
   expect(hello.find(".greeting").text()).toEqual('Hello Daniel!')
 });
 

@@ -1,14 +1,16 @@
 {
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "interface-name": [true, "never-prefix"],
+    "member-access": [true, "no-public"],
+    "ordered-imports": false
   },
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
       "node_modules/**/*.ts"
     ]
-  },
-  "member-access": [true, "no-public"]
+  }
 }
 
